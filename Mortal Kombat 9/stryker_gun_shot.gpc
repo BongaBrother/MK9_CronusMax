@@ -1,0 +1,89 @@
+/*
+* Created By BongaBrother
+*
+* Strykers's Gun Shot move.
+*
+* To use:
+*   - Hold L2 then tap the left/right button (towards your opponent) to shoot in that direction. 
+*       * Useful when going for the You Found Me! trophy/achievement.
+*       * TIP: Keep holding L2 and tap left/right just as stryker begins to holster his gun
+*   - Tap R2 any time to cancel the combo
+*
+* Tested on:
+*   PS3
+*/
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_LEFT))
+        {
+            disable_interfering_buttons();
+            combo_restart(stryker_shoot_left);
+        }
+        
+        if (get_val(PS3_RIGHT))
+        {
+            disable_interfering_buttons();
+            combo_restart(stryker_shoot_right);
+        }
+    }
+    
+    if(combo_running(stryker_shoot_right) || combo_running(stryker_shoot_left))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(stryker_shoot_left);
+    combo_stop(stryker_shoot_right);
+}
+
+combo stryker_shoot_right
+{
+    set_val(PS3_LEFT, 100);
+    wait(25);
+    
+    set_val(PS3_RIGHT, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 0);
+    wait(300);
+}
+
+combo stryker_shoot_left
+{
+    set_val(PS3_RIGHT, 100);
+    wait(25);
+    
+    set_val(PS3_LEFT, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 0);
+    wait(300);
+}
