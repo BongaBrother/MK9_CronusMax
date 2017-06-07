@@ -1,0 +1,58 @@
+/*
+* Created By BongaBrother
+*
+* Activate Sheeva's Jump Stomp move. Useful when attempting Ladder Master trophy/achievement
+*
+* To use:
+*   Hold L2 then tap Up button. 
+*
+* Tested on:
+*   PS3
+*/
+
+main {
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2) && get_val(PS3_UP))
+    {
+        disable_interfering_buttons();
+        combo_restart(sheeva_jump_stomp);
+    }
+    
+    if(combo_running(sheeva_jump_stomp))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(sheeva_jump_stomp);
+}
+
+combo sheeva_jump_stomp
+{
+    set_val(PS3_DOWN, 100);
+    wait(50);
+    
+    set_val(PS3_UP, 100);
+    wait(100);
+    
+    set_val(PS3_L2, 0);
+    wait(500);
+}
