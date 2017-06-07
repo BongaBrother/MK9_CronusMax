@@ -1,0 +1,78 @@
+/*
+* Created By BongaBrother
+*
+* Automates Luck be a Lady trophy/achievement work. Activate it to let it run through its cycle.
+*
+* To use:
+*   From the main menu:
+*       1 - Fight > Test Your Luck
+*       2 - Any fighter, any difficulty
+*       3 - Once the arena loads, Tap Cross (x) and sit through the cycle.
+*       4 - If you get all golden dragons, you're done (script wasn't needed). Congratulations!
+*       5 - If not, Tap L2. This will activate the script.
+*       6 - You can go shopping/eat/travel the world
+*       7 - To stop the combo, tap R2
+*       8 - Check trophies. If you got it while AFK, you're done.
+*       9 - If not, repeat from step 3
+*
+* Tested on:
+*   PS3
+*/
+
+int enableLuckCombo = 0;
+
+main {
+
+    if(event_press(PS3_L2))
+    {
+        enableLuckCombo = TRUE;
+    }
+    
+    if(event_press(PS3_R2))
+    {
+        enableLuckCombo = FALSE;
+    }
+    
+    if(event_press(PS3_L1))
+    {
+        combo_restart(luck_be_a_lady_combo)
+    }
+    
+    if (enableLuckCombo && !combo_running(luck_be_a_lady_combo))
+    {
+        combo_restart(luck_be_a_lady_combo)
+    }
+}
+
+combo luck_be_a_lady_combo
+{
+    set_val(PS3_START, 100);
+    wait(100);
+    
+    set_val(PS3_START, 0);
+    wait(500);
+    
+    set_val(PS3_DOWN, 100);
+    wait(100);
+    
+    set_val(PS3_DOWN, 0);
+    wait(100);
+
+    set_val(PS3_CROSS, 100);
+    wait(100);
+    
+    set_val(PS3_CROSS, 0);
+    wait(100);
+    
+    set_val(PS3_CROSS, 100);
+    wait(100);
+    
+    set_val(PS3_CROSS, 0);
+    wait(12000);
+    
+    set_val(PS3_CROSS, 100);
+    wait(100);
+    
+    set_val(PS3_CROSS, 0);
+    wait(15000);
+}
