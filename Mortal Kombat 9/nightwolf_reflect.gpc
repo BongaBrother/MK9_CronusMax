@@ -1,0 +1,88 @@
+/*
+* Created By BongaBrother
+*
+* Nightwolf's Reflect move.
+*
+* To use:
+*   - Hold L2 then tap the left/right button (towards your opponent) to reflect. 
+*       * Useful on Challenge Tower 26
+*
+* Tested on:
+*   PS3
+*/
+
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_LEFT))
+        {
+            disable_interfering_buttons();
+            combo_restart(nightwolf_reflect_left);
+        }
+        
+        if (get_val(PS3_RIGHT))
+        {
+            disable_interfering_buttons();
+            combo_restart(nightwolf_reflect_right);
+        }
+    }
+    
+    if(combo_running(nightwolf_reflect_right) || combo_running(nightwolf_reflect_left))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(nightwolf_reflect_left);
+    combo_stop(nightwolf_reflect_right);
+}
+
+combo nightwolf_reflect_right
+{
+    set_val(PS3_DOWN, 100);
+    wait(25);
+    
+    set_val(PS3_RIGHT, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(300);
+}
+
+combo nightwolf_reflect_left
+{
+    set_val(PS3_DOWN, 100);
+    wait(25);
+    
+    set_val(PS3_LEFT, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(300);
+}
