@@ -1,0 +1,186 @@
+/*
+* Created By BongaBrother
+*
+* Ermac's teleport move (Force Port) and combo chain
+*
+* To use:
+*   - Hold L2 then tap Left/Right button to teleport in that direction (re-appear on the other side). 
+*   - Tap left/right in the direction of your opponent, then tap R1 to initiate a combo chain. Note: this does disable grab though.
+*       * This combo is most effective within dash distance.
+*   - Tap R2 any time to cancel the combos
+*
+* Tested on:
+*   PS3
+*/
+
+int front = 0;
+int back = 0;
+
+main {
+
+    if (get_val(PS3_RIGHT))
+    {
+        start_facing_right();
+    }
+    
+    if (get_val(PS3_LEFT))
+    {
+        start_facing_left();
+    }
+    
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+
+    if (get_val(PS3_R1))
+    {
+        disable_interfering_buttons();
+        combo_restart(ermac_combo_chain);
+    }
+        
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_LEFT) || get_val(PS3_RIGHT))
+        {
+            disable_interfering_buttons();
+            combo_restart(ermac_force_port);
+        }
+    }
+    
+    if(combo_running(ermac_combo_chain) || combo_running(ermac_force_port))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function start_facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function start_facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+int temp_switch_front_back;
+function switch_front_back()
+{
+    temp_switch_front_back = front;
+    front = back;
+    back = temp_switch_front_back;
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(ermac_combo_chain);
+    combo_stop(ermac_force_port);
+}
+
+combo ermac_force_port
+{
+    set_val(front, 100);
+    set_val(PS3_UP, 100);
+    wait(25);
+    
+    set_val(PS3_DOWN, 100);
+    wait(25);
+    
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_CIRCLE, 100);
+    wait(25);
+}
+
+combo ermac_combo_chain
+{
+    //dash
+    set_val(front, 100);
+    wait(50);
+    
+    set_val(front, 0);
+    wait(50);
+    
+    set_val(front, 100);
+    wait(50);
+    //we win
+    set_val(back, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(50);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(50);
+    
+    set_val(front, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(50);
+    
+    set_val(front, 0);
+    wait(1200);
+    
+    //teleport
+    set_val(PS3_DOWN, 100);
+    wait(50);
+    
+    set_val(back, 100);
+    wait(50);
+    
+    set_val(PS3_CIRCLE, 100);
+    wait(700);
+    
+    switch_front_back();
+    
+    //lift
+    set_val(PS3_DOWN, 100);
+    wait(50);
+    
+    set_val(back, 100);
+    wait(50);
+    
+    set_val(PS3_SQUARE, 100);
+    wait(50);
+    
+    set_val(PS3_SQUARE, 0);
+    wait(1300);
+    
+    //dash
+    set_val(front, 100);
+    wait(50);
+    
+    set_val(front, 0);
+    wait(50);
+    
+    set_val(front, 100);
+    wait(300);
+    
+    //we win
+    set_val(back, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(50);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(50);
+    
+    set_val(front, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(50);
+    
+    set_val(front, 0);
+    wait(50);
+}
