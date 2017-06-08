@@ -11,9 +11,6 @@
 *   PS3
 */
 
-int front = 0;
-int back = 0;
-
 main
 {
     if (get_val(PS3_R2))
@@ -44,6 +41,8 @@ main
     }
 }
 
+int front = 0;
+int back = 0;
 function facing_left()
 {
     front = PS3_LEFT;

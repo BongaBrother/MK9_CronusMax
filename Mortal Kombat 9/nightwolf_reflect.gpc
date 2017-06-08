@@ -22,21 +22,37 @@ main
     {
         if (get_val(PS3_LEFT))
         {
+            facing_left();
             disable_interfering_buttons();
-            combo_restart(nightwolf_reflect_left);
+            combo_restart(nightwolf_reflect);
         }
         
         if (get_val(PS3_RIGHT))
         {
+            facing_right();
             disable_interfering_buttons();
-            combo_restart(nightwolf_reflect_right);
+            combo_restart(nightwolf_reflect);
         }
     }
     
-    if(combo_running(nightwolf_reflect_right) || combo_running(nightwolf_reflect_left))
+    if(combo_running(nightwolf_reflect))
     {
         disable_interfering_buttons();
     }
+}
+
+int front = 0;
+int back = 0;
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
 }
 
 function disable_interfering_buttons()
@@ -53,31 +69,15 @@ function disable_interfering_buttons()
 
 function stop_all_combos()
 {
-    combo_stop(nightwolf_reflect_left);
-    combo_stop(nightwolf_reflect_right);
+    combo_stop(nightwolf_reflect);
 }
 
-combo nightwolf_reflect_right
+combo nightwolf_reflect
 {
     set_val(PS3_DOWN, 100);
     wait(25);
     
-    set_val(PS3_RIGHT, 100);
-    wait(25);
-    
-    set_val(PS3_TRIANGLE, 100);
-    wait(25);
-    
-    set_val(PS3_TRIANGLE, 0);
-    wait(300);
-}
-
-combo nightwolf_reflect_left
-{
-    set_val(PS3_DOWN, 100);
-    wait(25);
-    
-    set_val(PS3_LEFT, 100);
+    set_val(front, 100);
     wait(25);
     
     set_val(PS3_TRIANGLE, 100);

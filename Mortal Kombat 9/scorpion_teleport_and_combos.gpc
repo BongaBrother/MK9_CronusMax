@@ -8,8 +8,7 @@
 *   - Hold L1 then tap Left/Right button to initiate a combo chain
 *   - Tap R2 any time to cancel the combo
 *
-* Tested on:
-*   PS3
+* Untested
 */
 
 main {
@@ -18,31 +17,35 @@ main {
         stop_all_combos();
     }
     
-    if (get_val(PS3_L2) && get_val(PS3_LEFT))
-    {
-        disable_interfering_buttons();
-        combo_restart(scorpion_teleport_to_the_left);
-    }
-    
     if (get_val(PS3_L2) && get_val(PS3_RIGHT))
     {
+        facing_right();
         disable_interfering_buttons();
-        combo_restart(scorpion_teleport_to_the_right);
+        combo_restart(scorpion_teleport);
+    }
+    
+        if (get_val(PS3_L2) && get_val(PS3_LEFT))
+    {
+        facing_left();
+        disable_interfering_buttons();
+        combo_restart(scorpion_teleport);
     }
     
     if (get_val(PS3_L1) && get_val(PS3_RIGHT))
     {
+        facing_right();
         disable_interfering_buttons();
-        combo_restart(scorpion_combo_right);
+        combo_restart(scorpion_combo);
     }
     
     if (get_val(PS3_L1) && get_val(PS3_LEFT))
     {
+        facing_left();
         disable_interfering_buttons();
-        combo_restart(scorpion_combo_left);
+        combo_restart(scorpion_combo);
     }
     
-    if(combo_running(scorpion_combo_left) || combo_running(scorpion_combo_right) || combo_running(scorpion_teleport_to_the_left) || combo_running(scorpion_teleport_to_the_right))
+    if(combo_running(scorpion_combo) || combo_running(scorpion_teleport))
     {
         disable_interfering_buttons();
     }
@@ -50,193 +53,8 @@ main {
 
 function stop_all_combos()
 {
-    combo_stop(scorpion_teleport_to_the_left);
-    combo_stop(scorpion_teleport_to_the_right);
-    combo_stop(scorpion_combo_left);
-    combo_stop(scorpion_combo_right);
-}
-
-combo scorpion_teleport_to_the_left
-{
-    set_val(PS3_LEFT, 100);
-    set_val(PS3_UP, 100);
-    wait(200);
-    
-    set_val(PS3_LEFT, 0);
-    set_val(PS3_UP, 0);
-    wait(50);
-    
-    set_val(PS3_DOWN, 100);
-    wait(50);
-    
-    set_val(PS3_DOWN, 0);
-    wait(50);
-    
-    set_val(PS3_LEFT, 100);
-    wait(50);
-    
-    set_val(PS3_LEFT, 0);
-    wait(50);
-    
-    set_val(PS3_CROSS, 100);
-    wait(50);
-    
-    set_val(PS3_CROSS, 0);
-    wait(50);
-}
-
-combo scorpion_teleport_to_the_right
-{
-    set_val(PS3_RIGHT, 100);
-    set_val(PS3_UP, 100);
-    wait(200);
-    
-    set_val(PS3_RIGHT, 0);
-    set_val(PS3_UP, 0);
-    wait(50);
-    
-    set_val(PS3_DOWN, 100);
-    wait(50);
-    
-    set_val(PS3_DOWN, 0);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 100);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 0);
-    wait(50);
-    
-    set_val(PS3_CROSS, 100);
-    wait(50);
-    
-    set_val(PS3_CROSS, 0);
-    wait(50);
-}
-
-
-combo scorpion_combo_left
-{
-    //spear to the left
-    set_val(PS3_RIGHT, 100);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 0);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 100);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 0);
-    wait(50);
-    
-    set_val(PS3_SQUARE, 80);
-    wait(200);
-        
-    set_val(PS3_SQUARE, 0);
-    wait(2000);
-    
-    //Jump then punch on the way down
-    set_val(PS3_UP, 100);
-    wait(100);
-    
-    set_val(PS3_UP, 0);
-    wait(500);
-    
-    set_val(PS3_TRIANGLE, 100);
-    wait(50);
-    
-    set_val(PS3_TRIANGLE, 0);
-    wait(500);
-        
-    //Blade Overhead
-    set_val(PS3_RIGHT, 100);
-    set_val(PS3_TRIANGLE, 100);
-    wait(800);
-    
-    set_val(PS3_RIGHT, 0);
-    set_val(PS3_TRIANGLE, 0);
-    wait(50);
-    
-    //dash
-    set_val(PS3_LEFT, 100);
-    wait(50);
-    
-    set_val(PS3_LEFT, 0);
-    wait(50);
-    
-    set_val(PS3_LEFT, 100);
-    wait(200);
-    
-    set_val(PS3_LEFT, 0);
-    wait(50);
-    
-    //Uppercut
-    set_val(PS3_DOWN, 100);
-    set_val(PS3_TRIANGLE, 100);
-    wait(50);
-}
-
-combo scorpion_combo_right
-{
-    //spear to the right
-    set_val(PS3_LEFT, 100);
-    wait(50);
-    
-    set_val(PS3_LEFT, 0);
-    wait(50);
-    
-    set_val(PS3_LEFT, 100);
-    wait(50);
-    
-    set_val(PS3_LEFT, 0);
-    wait(50);
-    
-    set_val(PS3_SQUARE, 80);
-    wait(200);
-        
-    set_val(PS3_SQUARE, 0);
-    wait(2000);
-    
-    //Jump then punch on the way down
-    set_val(PS3_UP, 100);
-    wait(100);
-    
-    set_val(PS3_UP, 0);
-    wait(500);
-    
-    set_val(PS3_TRIANGLE, 100);
-    wait(50);
-    
-    set_val(PS3_TRIANGLE, 0);
-    wait(500);
-        
-    //Blade Overhead
-    set_val(PS3_LEFT, 100);
-    set_val(PS3_TRIANGLE, 100);
-    wait(800);
-    
-    set_val(PS3_LEFT, 0);
-    set_val(PS3_TRIANGLE, 0);
-    wait(50);
-    
-    //dash
-    set_val(PS3_RIGHT, 100);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 0);
-    wait(50);
-    
-    set_val(PS3_RIGHT, 100);
-    wait(200);
-    
-    set_val(PS3_RIGHT, 0);
-    wait(50);
-    
-    //Uppercut
-    set_val(PS3_DOWN, 100);
-    set_val(PS3_TRIANGLE, 100);
-    wait(50);
+    combo_stop(scorpion_teleport);
+    combo_stop(scorpion_combo);
 }
 
 function disable_interfering_buttons()
@@ -247,4 +65,89 @@ function disable_interfering_buttons()
     set_val(PS3_DOWN, 0);
     set_val(PS3_LEFT, 0);
     set_val(PS3_RIGHT, 0);
+}
+
+int front = 0;
+int back = 0;
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+combo scorpion_teleport
+{
+    set_val(front, 100);
+    set_val(PS3_UP, 100);
+    wait(200);
+    
+    set_val(PS3_DOWN, 100);
+    wait(50);
+    
+    set_val(front, 100);
+    wait(50);
+    
+    set_val(PS3_CROSS, 100);
+    wait(50);
+    
+    set_val(PS3_CROSS, 0);
+    wait(300);
+}
+
+combo scorpion_combo
+{
+    //spear to the left
+    set_val(back, 100);
+    wait(25);
+    
+    set_val(back, 0);
+    wait(25);
+    
+    set_val(back, 100);
+    wait(50);
+
+    set_val(PS3_SQUARE, 100);
+    wait(200);
+        
+    set_val(PS3_SQUARE, 0);
+    wait(2000);
+    
+    //Jump then punch on the way down
+    set_val(PS3_UP, 100);
+    wait(100);
+    
+    set_val(PS3_UP, 0);
+    wait(500);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(500);
+        
+    //Blade Overhead
+    set_val(back, 100);
+    set_val(PS3_TRIANGLE, 100);
+    wait(800);
+    
+    //dash
+    set_val(front, 100);
+    wait(50);
+    
+    set_val(front, 0);
+    wait(50);
+    
+    set_val(front, 100);
+    wait(250);
+
+    //Uppercut
+    set_val(PS3_DOWN, 100);
+    set_val(PS3_TRIANGLE, 100);
+    wait(50);
 }
