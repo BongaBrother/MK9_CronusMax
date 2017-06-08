@@ -1,0 +1,52 @@
+/*
+* Created By BongaBrother
+*
+* Test your strike/might
+*
+* To use:
+*   - Hold any 1 of the SQUARE/CROSS/TRIANGLE/CIRCLE button to fill up the meter. Release to stop filling up.
+*
+* Tested on:
+*   PS3
+*/
+
+int front = 0;
+int back = 0;
+
+main
+{    
+    if (get_val(PS3_SQUARE) || get_val(PS3_CROSS) || get_val(PS3_TRIANGLE) || get_val(PS3_CIRCLE))
+    {
+        if (!combo_running(test_your_strike_might_combo))
+        {
+            disable_interfering_buttons();
+            combo_restart(test_your_strike_might_combo);
+        }
+    }
+    
+    if(combo_running(test_your_strike_might_combo))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+combo test_your_strike_might_combo
+{   
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(25);
+}

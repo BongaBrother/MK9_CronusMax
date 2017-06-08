@@ -1,0 +1,89 @@
+/*
+* Created By BongaBrother
+*
+* Kung Lao spin
+*
+* To use:
+*   - Hold L2 then tap the right/left button to throw knives. 
+*       * Useful on Challenge Tower 68
+*
+* Tested on:
+*   PS3
+*/
+
+int front = 0;
+int back = 0;
+
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_RIGHT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(cyrax_buzzsaw_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_left();
+            disable_interfering_buttons();
+            combo_restart(cyrax_buzzsaw_combo);
+        }
+    }
+    
+    if(combo_running(cyrax_buzzsaw_combo))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(cyrax_buzzsaw_combo);
+}
+
+combo cyrax_buzzsaw_combo
+{
+    set_val(back, 100);
+    wait(25);
+
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(300);
+}

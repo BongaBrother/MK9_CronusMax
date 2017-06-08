@@ -1,0 +1,100 @@
+/*
+* Created By BongaBrother
+*
+* Kung Lao and Liu Kang challenge 70
+*
+* To use:
+*   - Hold L2 then tap the right button to toss hat (with Kung Lao)
+8   - HOLD L2 then tap the left button to throw fireballs (with Liu Kang). 
+*       * Useful on Challenge Tower 65
+*
+* Tested on:
+*   PS3
+*/
+
+int front = 0;
+int back = 0;
+
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_RIGHT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(kung_lao_hat_toss_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(liu_kang_fireball_combo);
+        }
+    }
+    
+    if(combo_running(kung_lao_hat_toss_combo) || combo_running(liu_kang_fireball_combo))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(kung_lao_hat_toss_combo);
+    combo_stop(liu_kang_fireball_combo);
+}
+
+combo kung_lao_hat_toss_combo
+{
+    set_val(back, 100);
+    wait(25);
+
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+
+    set_val(PS3_TRIANGLE, 0);
+    wait(300);
+}
+
+combo liu_kang_fireball_combo
+{
+    set_val(back, 100);
+    wait(25);
+
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+
+    set_val(PS3_SQUARE, 0);
+    wait(300);
+}

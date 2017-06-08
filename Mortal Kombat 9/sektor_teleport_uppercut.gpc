@@ -1,0 +1,88 @@
+/*
+* Created By BongaBrother
+*
+* Sektor Teleport Uppercut
+*
+* To use:
+*   - Hold L2 then tap the right/left button to attack
+*
+* Tested on:
+*   PS3
+*/
+
+int front = 0;
+int back = 0;
+
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_RIGHT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(sektor_teleport_uppercut_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_left();
+            disable_interfering_buttons();
+            combo_restart(sektor_teleport_uppercut_combo);
+        }
+    }
+    
+    if(combo_running(sektor_teleport_uppercut_combo))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(sektor_teleport_uppercut_combo);
+}
+
+combo sektor_teleport_uppercut_combo
+{
+    set_val(PS3_DOWN, 100);
+    wait(25);
+
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_CIRCLE, 100);
+    wait(25);
+    
+    set_val(PS3_CIRCLE, 0);
+    wait(300);
+}
