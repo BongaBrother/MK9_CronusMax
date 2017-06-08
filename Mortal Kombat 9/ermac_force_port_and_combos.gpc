@@ -13,19 +13,16 @@
 *   PS3
 */
 
-int front = 0;
-int back = 0;
-
 main {
 
     if (get_val(PS3_RIGHT))
     {
-        start_facing_right();
+        facing_right();
     }
     
     if (get_val(PS3_LEFT))
     {
-        start_facing_left();
+        facing_left();
     }
     
     if (get_val(PS3_R2))
@@ -54,13 +51,15 @@ main {
     }
 }
 
-function start_facing_left()
+int front = 0;
+int back = 0;
+function facing_left()
 {
     front = PS3_LEFT;
     back = PS3_RIGHT;
 }
 
-function start_facing_right()
+function facing_right()
 {
     front = PS3_RIGHT;
     back = PS3_LEFT;

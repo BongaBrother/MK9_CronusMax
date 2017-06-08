@@ -23,21 +23,37 @@ main
     {
         if (get_val(PS3_LEFT))
         {
+            facing_left();
             disable_interfering_buttons();
-            combo_restart(stryker_shoot_left);
+            combo_restart(stryker_shoot);
         }
         
         if (get_val(PS3_RIGHT))
         {
+            facing_right();
             disable_interfering_buttons();
-            combo_restart(stryker_shoot_right);
+            combo_restart(stryker_shoot);
         }
     }
     
-    if(combo_running(stryker_shoot_right) || combo_running(stryker_shoot_left))
+    if(combo_running(stryker_shoot))
     {
         disable_interfering_buttons();
     }
+}
+
+int front = 0;
+int back = 0;
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
 }
 
 function disable_interfering_buttons()
@@ -54,31 +70,15 @@ function disable_interfering_buttons()
 
 function stop_all_combos()
 {
-    combo_stop(stryker_shoot_left);
-    combo_stop(stryker_shoot_right);
+    combo_stop(stryker_shoot);
 }
 
-combo stryker_shoot_right
+combo stryker_shoot
 {
-    set_val(PS3_LEFT, 100);
+    set_val(back, 100);
     wait(25);
     
-    set_val(PS3_RIGHT, 100);
-    wait(25);
-    
-    set_val(PS3_SQUARE, 100);
-    wait(25);
-    
-    set_val(PS3_SQUARE, 0);
-    wait(300);
-}
-
-combo stryker_shoot_left
-{
-    set_val(PS3_RIGHT, 100);
-    wait(25);
-    
-    set_val(PS3_LEFT, 100);
+    set_val(front, 100);
     wait(25);
     
     set_val(PS3_SQUARE, 100);

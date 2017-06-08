@@ -1,0 +1,124 @@
+/*
+* Created By BongaBrother
+*
+* Reptile Combo
+*
+* To use:
+*   - Hold L2 then tap the right/left button to attack
+*       * Useful for challenge 47 (spam the combo)
+*
+* Tested on:
+*   PS3
+*/
+
+main
+{
+    if (get_val(PS3_R2))
+    {
+        stop_all_combos();
+    }
+    
+    if (get_val(PS3_L2))
+    {
+        if (get_val(PS3_RIGHT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(reptile_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_left();
+            disable_interfering_buttons();
+            combo_restart(reptile_combo);
+        }
+    }
+    
+    if(combo_running(reptile_combo))
+    {
+        disable_interfering_buttons();
+    }
+}
+
+int front = 0;
+int back = 0;
+function facing_left()
+{
+    front = PS3_LEFT;
+    back = PS3_RIGHT;
+}
+
+function facing_right()
+{
+    front = PS3_RIGHT;
+    back = PS3_LEFT;
+}
+
+function disable_interfering_buttons()
+{
+    set_val(PS3_L1, 0);
+    set_val(PS3_L2, 0);
+    set_val(PS3_R1, 0);
+    set_val(PS3_UP, 0);
+    set_val(PS3_DOWN, 0);
+    set_val(PS3_LEFT, 0);
+    set_val(PS3_RIGHT, 0);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+function stop_all_combos()
+{
+    combo_stop(reptile_combo);
+}
+
+combo reptile_combo
+{
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 0);
+    wait(500);
+    
+    set_val(back, 100);
+    wait(25);
+    
+    set_val(back, 0);
+    wait(25);
+    
+    set_val(back, 100);
+    wait(25);
+
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+
+    set_val(PS3_SQUARE, 0);
+    wait(1400);
+    
+    set_val(PS3_CROSS, 100);
+    wait(25);
+    
+    set_val(PS3_TRIANGLE, 100);
+    wait(25);
+
+    set_val(PS3_SQUARE, 100);
+    wait(500);
+    
+    set_val(back, 100);
+    wait(25);
+    
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_CIRCLE, 100);
+    wait(500);
+}

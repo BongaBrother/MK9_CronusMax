@@ -1,15 +1,18 @@
 /*
 * Created By BongaBrother
 *
-* Nightwolf's Reflect move.
+* Kano Ball
 *
 * To use:
-*   - Hold L2 then tap the left/right button (towards your opponent) to reflect. 
-*       * Useful on Challenge Tower 26
+*   - Hold L2 then tap the right/left button to attack
+*       * Useful for challenge 38
 *
 * Tested on:
 *   PS3
 */
+
+int front = 0;
+int back = 0;
 
 main
 {
@@ -20,29 +23,27 @@ main
     
     if (get_val(PS3_L2))
     {
-        if (get_val(PS3_LEFT))
-        {
-            facing_left();
-            disable_interfering_buttons();
-            combo_restart(nightwolf_reflect);
-        }
-        
         if (get_val(PS3_RIGHT))
         {
             facing_right();
             disable_interfering_buttons();
-            combo_restart(nightwolf_reflect);
+            combo_restart(kabal_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_left();
+            disable_interfering_buttons();
+            combo_restart(kabal_combo);
         }
     }
     
-    if(combo_running(nightwolf_reflect))
+    if(combo_running(kabal_combo))
     {
         disable_interfering_buttons();
     }
 }
 
-int front = 0;
-int back = 0;
 function facing_left()
 {
     front = PS3_LEFT;
@@ -69,20 +70,42 @@ function disable_interfering_buttons()
 
 function stop_all_combos()
 {
-    combo_stop(nightwolf_reflect);
+    combo_stop(kabal_combo);
 }
 
-combo nightwolf_reflect
+int temp_switch_front_back;
+function switch_front_back()
 {
-    set_val(PS3_DOWN, 100);
+    temp_switch_front_back = front;
+    front = back;
+    back = temp_switch_front_back;
+}
+
+combo kabal_combo
+{
+    set_val(back, 100);
     wait(25);
     
     set_val(front, 100);
     wait(25);
+
+    set_val(PS3_CIRCLE, 100);
+    wait(25);
+
+    set_val(PS3_CIRCLE, 0);
+    wait(1000);
+
+    switch_front_back();
+    
+    set_val(PS3_DOWN, 100);
+    wait(25);
+
+    set_val(back, 100);
+    wait(25);
     
     set_val(PS3_TRIANGLE, 100);
     wait(25);
-    
+
     set_val(PS3_TRIANGLE, 0);
-    wait(300);
+    wait(500);
 }

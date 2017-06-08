@@ -1,15 +1,19 @@
 /*
 * Created By BongaBrother
 *
-* Nightwolf's Reflect move.
+* Kung Lao and Liu Kang challenge 70
 *
 * To use:
-*   - Hold L2 then tap the left/right button (towards your opponent) to reflect. 
-*       * Useful on Challenge Tower 26
+*   - Hold L2 then tap the right button to toss hat (with Kung Lao)
+8   - HOLD L2 then tap the left button to throw fireballs (with Liu Kang). 
+*       * Useful on Challenge Tower 65
 *
 * Tested on:
 *   PS3
 */
+
+int front = 0;
+int back = 0;
 
 main
 {
@@ -20,33 +24,25 @@ main
     
     if (get_val(PS3_L2))
     {
-        if (get_val(PS3_LEFT))
-        {
-            facing_left();
-            disable_interfering_buttons();
-            combo_restart(nightwolf_reflect);
-        }
-        
         if (get_val(PS3_RIGHT))
         {
             facing_right();
             disable_interfering_buttons();
-            combo_restart(nightwolf_reflect);
+            combo_restart(kung_lao_hat_toss_combo);
+        }
+        
+        if (get_val(PS3_LEFT))
+        {
+            facing_right();
+            disable_interfering_buttons();
+            combo_restart(liu_kang_fireball_combo);
         }
     }
     
-    if(combo_running(nightwolf_reflect))
+    if(combo_running(kung_lao_hat_toss_combo) || combo_running(liu_kang_fireball_combo))
     {
         disable_interfering_buttons();
     }
-}
-
-int front = 0;
-int back = 0;
-function facing_left()
-{
-    front = PS3_LEFT;
-    back = PS3_RIGHT;
 }
 
 function facing_right()
@@ -69,20 +65,36 @@ function disable_interfering_buttons()
 
 function stop_all_combos()
 {
-    combo_stop(nightwolf_reflect);
+    combo_stop(kung_lao_hat_toss_combo);
+    combo_stop(liu_kang_fireball_combo);
 }
 
-combo nightwolf_reflect
+combo kung_lao_hat_toss_combo
 {
-    set_val(PS3_DOWN, 100);
+    set_val(back, 100);
     wait(25);
-    
+
     set_val(front, 100);
     wait(25);
     
     set_val(PS3_TRIANGLE, 100);
     wait(25);
-    
+
     set_val(PS3_TRIANGLE, 0);
+    wait(300);
+}
+
+combo liu_kang_fireball_combo
+{
+    set_val(back, 100);
+    wait(25);
+
+    set_val(front, 100);
+    wait(25);
+    
+    set_val(PS3_SQUARE, 100);
+    wait(25);
+
+    set_val(PS3_SQUARE, 0);
     wait(300);
 }
